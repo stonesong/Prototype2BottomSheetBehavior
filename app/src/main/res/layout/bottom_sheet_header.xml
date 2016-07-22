@@ -3,29 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/colorGrayLightAlpha"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:layout_width="match_parent"
         android:text="Fahrzeugpool"
-        android:textSize="30sp"
+        android:textSize="20sp"
+        android:layout_marginTop="3dp"
         android:gravity="center"
         android:textStyle="bold"
-        android:background="@android:color/background_light"
-        android:layout_height="50dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:text="12 disponible cars"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:background="@android:color/background_light"
-        android:layout_height="20dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:text="Time price: 5.00€"
-        android:textSize="12sp"
-        android:gravity="center"
-        android:background="@android:color/background_light"
+        android:textColor="@android:color/black"
         android:layout_height="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="3dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="20dp"
+            android:text="12 disponible cars"
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:gravity="left" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textColor="@android:color/black"
+            android:text="Time price: 5.00€"
+            android:textSize="12sp"
+            android:gravity="right"
+            />
+
+    </LinearLayout>
 
 </LinearLayout>

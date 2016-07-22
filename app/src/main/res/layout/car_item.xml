@@ -5,23 +5,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="12dp"
-    android:layout_marginBottom="32dp">
+    android:paddingBottom="12dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="1dp"
+        android:layout_marginTop="15dp"
         android:padding="3dp"
         >
-        <ImageView
-            android:id="@+id/image_car"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:layout_gravity="center_vertical"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            />
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -32,13 +23,16 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 >
                 <TextView
                     android:id="@+id/text_car_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
                     android:text="Ford fiesta"
                     />
                 <TextView
@@ -47,58 +41,53 @@
                     android:layout_width="wrap_content"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:gravity="right"
+                    android:textStyle="bold"
                     android:text="5€/hour"
 
                     />
             </LinearLayout>
-            <TextView
-                android:id="@+id/text_license"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
-            <TextView
-                android:id="@+id/text_make"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
+
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="6dp"
+        android:layout_weight="3"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         >
         <Button
             android:background="@color/transparent"
             android:textColor="@color/colorPrimary"
             android:id="@+id/button_details"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Infos"
+            android:gravity="left"
             />
         <Button
             android:id="@+id/button_bookings"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:textColor="@color/colorPrimary"
+            android:layout_weight="1"
             android:text="Availability"
+            android:gravity="center"
             />
         <Button
             android:background="@color/transparent"
             android:textColor="@color/colorPrimary"
             android:id="@+id/button_book"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Book"
+            android:gravity="right"
             />
     </LinearLayout>
 

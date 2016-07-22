@@ -23,7 +23,7 @@ public class InvoiceListAdapter extends RecyclerView.Adapter<InvoiceListAdapter.
     @Override
     public InvoiceListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemLayoutView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.car_item, null);
+                .inflate(R.layout.car_item, parent, false);
 
         ViewHolder viewHolder = new ViewHolder(itemLayoutView);
         return viewHolder;

@@ -5,18 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </RelativeLayout>
+
 
     <!--<ImageView-->
         <!--android:id="@+id/image_chat"-->
@@ -33,18 +31,17 @@
         android:id="@+id/bottom_sheet_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:behavior_peekHeight="250dp"
-        tools:context=".MainActivity"
         android:orientation="vertical"
+        app:behavior_peekHeight="200dp"
+        tools:context=".MainActivity"
         app:behavior_hideable="true"
         app:layout_behavior="com.example.pierrechanson.prototypebottomsheet.BottomSheetBehaviorGoogleMapsLike"
-        app:anchorPoint="80dp"
-        >
-
-        <include
+        app:anchorPoint="250dp">
+            <include
                 layout="@layout/bottom_sheet_header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                />
 
             <include
                 layout="@layout/bottom_sheet_container"
@@ -52,5 +49,6 @@
                 android:layout_height="match_parent" />
 
     </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

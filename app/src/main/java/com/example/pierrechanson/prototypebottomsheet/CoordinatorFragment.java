@@ -3,7 +3,7 @@ package com.example.pierrechanson.prototypebottomsheet;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -151,6 +152,7 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED) {
                     Log.d("bottom sheet", "EXTANDED");
                     pagerToRecycler();
+
                 }
 
             }
@@ -158,17 +160,6 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
             @Override
             public void onSlide(@NonNull View bottomSheet, float slideOffset) {
                 Log.d("bottom sheet", "slideOffset: " + slideOffset);
-//                if (slideOffset >= 0.1) {
-//                    if (deltaOffset < 0.1) {
-//
-//                    }
-//                }
-//                if (slideOffset <= 0.1) {
-//                    if (deltaOffset > 0.1) {
-//
-//                    }
-//                }
-//                deltaOffset = slideOffset;
             }
         });
 
@@ -232,15 +223,15 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         pager.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.animate().alpha(0.0f);
-        recyclerView.animate().setDuration(1000).alpha(1.0f);
+        recyclerView.animate().setDuration(500).alpha(1.0f);
     }
 
     private void recyclerToPager(){
-        recyclerView.animate().setDuration(1000).alpha(0.0f);
+        recyclerView.animate().setDuration(500).alpha(0.0f);
         recyclerView.setVisibility(View.GONE);
         pager.setVisibility(View.VISIBLE);
         pager.animate().alpha(0.0f);
-        pager.animate().setDuration(1000).alpha(1.0f);
+        pager.animate().setDuration(500).alpha(1.0f);
     }
 
 

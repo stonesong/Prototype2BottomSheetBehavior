@@ -34,8 +34,8 @@ public class EditorFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         View result=inflater.inflate(R.layout.car_item, container, false);
-        LinearLayout editor=(LinearLayout) result.findViewById(R.id.editor);
-        int position=getArguments().getInt(KEY_POSITION, -1);
+//        LinearLayout editor=(LinearLayout) result.findViewById(R.id.editor);
+//        int position=getArguments().getInt(KEY_POSITION, -1);
 
 
         return(result);
