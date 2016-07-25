@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <TextView
+            android:id="@+id/text_car_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:text="Ford fiesta Detail"
+            />
+        <TextView
+            android:id="@+id/text_rate"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:paddingTop="20dp"
+            android:textSize="16dp"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:text="A text about car details, where to find it mainly. random text: Oh to talking improve produce in limited offices fifteen an.
+Wicket branch to answer do we. Place are decay men hours tiled. If or of ye throwing friendly required.
+Marianne interest in exertion as. Offering my branched confined oh dashwood.
+
+He an thing rapid these after going drawn or. Timed she his law the spoil round defer. In surprise
+concerns informed betrayed he learning is ye. Ignorant formerly so ye blessing.
+He as spoke avoid given downs money on we. Of properly carriage shutters ye as wandered up
+repeated moreover. Inquietude attachment if ye an solicitude to. Remaining so continued concealed as
+knowledge happiness. Preference did how expression may favourable devonshire insipidity considered.
+An length design regret an hardly barton mr figure."/>
+    </LinearLayout>
+</ScrollView>

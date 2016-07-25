@@ -3,17 +3,13 @@ package com.example.pierrechanson.prototypebottomsheet;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewPropertyAnimator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -27,7 +23,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by pierrechanson on 14/07/16.
@@ -35,21 +30,21 @@ import java.util.Arrays;
 public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerClickListener {
 
     MapView mapView;
+    MapView mapView2;
     GoogleMap map;
+    GoogleMap map2;
+
+    private LinearLayout header;
 
     private BottomSheetBehaviorGoogleMapsLike sheetBehavior;
     private View bottomSheet;
-    private LinearLayout header;
-    private Marker marker;
-    private RecyclerView recyclerView;
+    private ArrayList<Marker> markers;
+    private Marker marker2;
+
     private ViewPager pager;
+    private ViewPager recyclerPager;
     private ImageView chat;
-
-//    private float deltaOffset = -1;
-
-    private ArrayList<String> items = new ArrayList(Arrays.asList("1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"));
-    private LinearLayoutManager layoutManager;
-    private InvoiceListAdapter mAdapter;
+    private PagerAdapter pagerAdapter;
 
 
     public static Fragment newInstance() {
@@ -76,9 +71,13 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         mapView = (MapView) view.findViewById(R.id.mapview);
         mapView.onCreate(savedInstanceState);
 
+        mapView2 = (MapView) view.findViewById(R.id.mapview2);
+        mapView2.onCreate(savedInstanceState);
+
 //        chat = (ImageView) view.findViewById(R.id.image_chat);
 
         setUpMap();
+        setUpMap2();
 
         header = (LinearLayout) view.findViewById(R.id.header);
 
@@ -88,23 +87,16 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         pager=(ViewPager)view.findViewById(R.id.bs_pager);
         pager.setAdapter(buildAdapter());
 
-        recyclerView =(RecyclerView)view.findViewById(R.id.bs_recycle_view);
-        setUpRecycleView();
+        recyclerPager = (ViewPager) view.findViewById(R.id.recyclerView_pager);
+        pagerAdapter = new StationPagerAdapter(getActivity().getSupportFragmentManager());
+        recyclerPager.setAdapter(pagerAdapter);
 
         setUpCallbacks();
 
         return view ;
     }
 
-    private void setUpRecycleView(){
-        layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-        mAdapter = new InvoiceListAdapter(items);
-        recyclerView.setAdapter(mAdapter);
-    }
-
     private void setUpMap(){
-
 
         // Gets to GoogleMap from the MapView and does initialization stuff
         map = mapView.getMap();
@@ -124,7 +116,35 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         map.animateCamera(cameraUpdate);
 
         final LatLng TutorialsPoint = new LatLng(50.934830, 6.946425);
-        marker = map.addMarker(new MarkerOptions().position(TutorialsPoint));
+        final LatLng TutorialsPoint2 = new LatLng(50.934135, 6.942425);
+        final LatLng TutorialsPoint3 = new LatLng(50.935230, 6.943426);
+        markers = new ArrayList<>();
+        markers.add(map.addMarker(new MarkerOptions().position(TutorialsPoint)));
+        markers.add(map.addMarker(new MarkerOptions().position(TutorialsPoint2)));
+        markers.add(map.addMarker(new MarkerOptions().position(TutorialsPoint3)));
+    }
+
+    private void setUpMap2(){
+
+        // Gets to GoogleMap from the MapView and does initialization stuff
+        map2 = mapView2.getMap();
+        map2.getUiSettings().setMyLocationButtonEnabled(false);
+//        map.setMyLocationEnabled(true);
+
+        // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
+        try {
+            MapsInitializer.initialize(this.getActivity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        map2.setOnMarkerClickListener(this);
+
+        // Updates the location and zoom of the MapView
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(50.934830, 6.946425), 15);
+        map2.animateCamera(cameraUpdate);
+
+        final LatLng TutorialsPoint = new LatLng(50.934830, 6.946425);
+        marker2 = map2.addMarker(new MarkerOptions().position(TutorialsPoint));
     }
 
     private void setUpBottomSheet(){
@@ -192,6 +212,7 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     @Override
     public void onResume() {
         mapView.onResume();
+        mapView2.onResume();
         super.onResume();
     }
 
@@ -199,40 +220,37 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
+        mapView2.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+        mapView2.onLowMemory();
     }
 
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-        if (marker.equals(this.marker))
-        {
-            sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED);
-
-        }
+        sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED);
         return true;
     }
 
     private void pagerToRecycler(){
         pager.animate().alpha(0.0f);
         pager.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.animate().alpha(0.0f);
-        recyclerView.animate().setDuration(500).alpha(1.0f);
+        recyclerPager.setVisibility(View.VISIBLE);
+        recyclerPager.animate().alpha(0.0f);
+        recyclerPager.animate().setDuration(500).alpha(1.0f);
     }
 
     private void recyclerToPager(){
-        recyclerView.animate().setDuration(500).alpha(0.0f);
-        recyclerView.setVisibility(View.GONE);
+        recyclerPager.animate().setDuration(500).alpha(0.0f);
+        recyclerPager.setVisibility(View.GONE);
         pager.setVisibility(View.VISIBLE);
         pager.animate().alpha(0.0f);
         pager.animate().setDuration(500).alpha(1.0f);
     }
-
 
 }
