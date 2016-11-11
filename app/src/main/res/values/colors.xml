@@ -8,5 +8,10 @@
     <color name="colorGrayLightAlpha">#baffffff</color>
     <color name="transparent">#00ffffff</color>
 
+    <color name="back_white">#FFFFFF</color>
+    <color name="color_red">#FF0000</color>
+    <color name="color_black">#000000</color>
+
+
 
 </resources>

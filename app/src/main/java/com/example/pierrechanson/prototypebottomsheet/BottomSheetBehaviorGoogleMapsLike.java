@@ -173,6 +173,7 @@ public class BottomSheetBehaviorGoogleMapsLike<V extends View> extends Coordinat
         if (attrs != null)
             mAnchorPoint = (int) a.getDimension(R.styleable.CustomBottomSheetBehavior_anchorPoint, 0);
         a.recycle();
+        
 
 
         ViewConfiguration configuration = ViewConfiguration.get(context);

@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/header"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/header"
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/header_transition"
+    android:divider="@null"
+    android:dividerPadding="0dp"
     android:orientation="vertical"
-    android:background="@color/colorGrayLightAlpha"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:weightSum="1">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimary"/>
+        android:id="@+id/stationFullStationName"
+        android:layout_width="285dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|left|center"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginTop="8.0dip"
+        android:text="Medium Text"
+        android:textColor="@color/color_black"
+        android:textSize="18dp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:text="Fahrzeugpool"
-        android:textSize="20sp"
-        android:layout_marginTop="3dp"
-        android:gravity="center"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_height="30dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|left"
         android:layout_marginBottom="3dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="2dp"
+        android:baselineAligned="false"
+        android:foregroundGravity="bottom"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="20dp"
-            android:text="12 disponible cars"
-            android:textSize="12sp"
-            android:textColor="@android:color/black"
-            android:gravity="left" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/station_full_free_bikes"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:paddingRight="20dp"
-            android:textColor="@android:color/black"
-            android:text="Time price: 5.00€"
-            android:textSize="12sp"
-            android:gravity="right"
-            />
+            android:gravity="bottom"
+            android:text="8 available bikes"
+            android:textColor="@color/color_black" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/station_full_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:paddingRight="10.0dip"
+            android:text="10 mins"
+            android:textColor="@color/color_black" />
 
+    </RelativeLayout>
 </LinearLayout>

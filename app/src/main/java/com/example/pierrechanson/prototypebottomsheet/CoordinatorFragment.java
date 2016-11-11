@@ -1,12 +1,17 @@
 package com.example.pierrechanson.prototypebottomsheet;
 
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +35,12 @@ import java.util.ArrayList;
 public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerClickListener {
 
     MapView mapView;
+    private GoogleMap map;
     MapView mapView2;
-    GoogleMap map;
     GoogleMap map2;
 
-    private LinearLayout header;
-
-    private BottomSheetBehaviorGoogleMapsLike sheetBehavior;
-    private View bottomSheet;
+    private CabBottomSheet bottomSheet;
+    private View bottomSheetLayout;
     private ArrayList<Marker> markers;
     private Marker marker2;
 
@@ -68,9 +71,10 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
 
        View view = (View) inflater.inflate(R.layout.fragment_coordinator,
                 container, false);
-        mapView = (MapView) view.findViewById(R.id.mapview);
-        mapView.onCreate(savedInstanceState);
 
+
+        mapView = (MapView) view.findViewById(R.id.mapview);
+        mapView.onCreate(null);
         mapView2 = (MapView) view.findViewById(R.id.mapview2);
         mapView2.onCreate(savedInstanceState);
 
@@ -79,22 +83,15 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         setUpMap();
         setUpMap2();
 
-        header = (LinearLayout) view.findViewById(R.id.header);
-
-        bottomSheet = view.findViewById(R.id.bottom_sheet_layout);
-        setUpBottomSheet();
-
-        pager=(ViewPager)view.findViewById(R.id.bs_pager);
-        pager.setAdapter(buildAdapter());
-
-        recyclerPager = (ViewPager) view.findViewById(R.id.recyclerView_pager);
-        pagerAdapter = new StationPagerAdapter(getActivity().getSupportFragmentManager());
-        recyclerPager.setAdapter(pagerAdapter);
+        bottomSheetLayout = view.findViewById(R.id.bottom_sheet_layout);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        bottomSheet = new CabBottomSheet(getActivity(), bottomSheetLayout, actionBar);
 
         setUpCallbacks();
 
         return view ;
     }
+
 
     private void setUpMap(){
 
@@ -124,6 +121,7 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         markers.add(map.addMarker(new MarkerOptions().position(TutorialsPoint3)));
     }
 
+
     private void setUpMap2(){
 
         // Gets to GoogleMap from the MapView and does initialization stuff
@@ -147,63 +145,6 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         marker2 = map2.addMarker(new MarkerOptions().position(TutorialsPoint));
     }
 
-    private void setUpBottomSheet(){
-
-        sheetBehavior = BottomSheetBehaviorGoogleMapsLike.from(bottomSheet);
-
-        sheetBehavior.addBottomSheetCallback(new BottomSheetBehaviorGoogleMapsLike.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-                Log.d("bottom sheet", "onStateChanged: " + newState);
-                // React to state change
-                if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN) {
-                    Log.d("bottom sheet", "HIDE");
-                    recyclerToPager();
-                } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED) {
-                    Log.d("bottom sheet", "COLLAPSED");
-                    recyclerToPager();
-                } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_SETTLING) {
-                    Log.d("bottom sheet", "SETTLING");
-
-                } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT) {
-                    Log.d("bottom sheet", "ANCHORPOINT");
-                    pagerToRecycler();
-
-                } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED) {
-                    Log.d("bottom sheet", "EXTANDED");
-                    pagerToRecycler();
-
-                }
-
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                Log.d("bottom sheet", "slideOffset: " + slideOffset);
-            }
-        });
-
-        sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN);
-
-    }
-
-    private void setUpCallbacks(){
-
-        header.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT);
-            }
-        });
-
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN);
-            }
-        });
-
-    }
 
     private PagerAdapter buildAdapter() {
         return(new SampleAdapter(getActivity(), getChildFragmentManager()));
@@ -230,10 +171,19 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         mapView2.onLowMemory();
     }
 
+    private void setUpCallbacks() {
+        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                bottomSheet.sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN);
+            }
+        });
+    }
+
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-        sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED);
+        bottomSheet.sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED);
         return true;
     }
 
