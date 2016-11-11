@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by guillaumemeral on 10/11/16.
@@ -25,6 +26,7 @@ public class CabBottomSheet {
     private Activity context;
     private LinearLayout header;
     private TextView stationFullName, stationFullFreeBikes, stationFullDistance;
+    private LinearLayout rentLayout, damageLayout, routeLayout;
     private ActionBar actionBar;
     private boolean isHeaderRed = false;
 
@@ -40,6 +42,10 @@ public class CabBottomSheet {
         stationFullDistance = (TextView) bottomSheet.findViewById(R.id.station_full_distance);
         stationFullName = (TextView) bottomSheet.findViewById(R.id.stationFullStationName);
         stationFullFreeBikes = (TextView) bottomSheet.findViewById(R.id.station_full_free_bikes);
+
+        rentLayout = (LinearLayout) bottomSheet.findViewById(R.id.rent_layout);
+        damageLayout = (LinearLayout) bottomSheet.findViewById(R.id.damage_layout);
+        routeLayout = (LinearLayout) bottomSheet.findViewById(R.id.route_layout);
 
         setUpBottomSheet();
         setUpCallbacks();
@@ -115,6 +121,19 @@ public class CabBottomSheet {
             @Override
             public void onClick(View view) {
                 sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT);
+            }
+        });
+
+        setToastClickListener(rentLayout, "Show rent another");
+        setToastClickListener(damageLayout, "Show Report Damage");
+        setToastClickListener(routeLayout, "Start Route");
+    }
+
+    private void setToastClickListener(View view, final String text) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
             }
         });
     }

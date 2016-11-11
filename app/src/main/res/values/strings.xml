@@ -9,4 +9,8 @@
 
     <string name="hint">Flinkster Car: %d</string>
 
+    <string name="station_view_rent_other">Rent\nAnother</string>
+    <string name="station_view_start_route">Start\nRoute</string>
+    <string name="station_view_problem">Report\nDamage</string>
+
 </resources>
