@@ -2,15 +2,12 @@ package com.example.pierrechanson.prototypebottomsheet;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -29,6 +26,7 @@ public class CabBottomSheet {
     private LinearLayout header;
     private TextView stationFullName, stationFullFreeBikes, stationFullDistance;
     private ActionBar actionBar;
+    private boolean isHeaderRed = false;
 
     private static final int HEADER_TRANSITION_DURATION = 200;
 
@@ -66,18 +64,19 @@ public class CabBottomSheet {
                     showActionBar();
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED) {
                     Log.d("bottom sheet", "COLLAPSED");
-//                    headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition_white, R.color.color_black);
+                    setHeaderWhite();
                     showActionBar();
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_SETTLING) {
                     Log.d("bottom sheet", "SETTLING");
 
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT) {
                     Log.d("bottom sheet", "ANCHORPOINT");
-//                    headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition, R.color.back_white);
+                    setHeaderRed();
                     showActionBar();
 
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED) {
                     Log.d("bottom sheet", "EXTANDED");
+                    setHeaderRed();
                     hideActionBar();
 
                 }
@@ -103,11 +102,11 @@ public class CabBottomSheet {
     }
 
     private void hideActionBar() {
-//        actionBar.hide();
+        actionBar.hide();
     }
 
     private void showActionBar() {
-//        actionBar.show();
+        actionBar.show();
     }
 
 
@@ -125,25 +124,6 @@ public class CabBottomSheet {
         view.setBackground(drawable);
     }
 
-//    public void changeHeaderColorWithTransition(int ms, boolean reverse) {
-//        if (reverse) {
-//            if (!headerRed) {
-//                TransitionDrawable transDraw = (TransitionDrawable) ContextCompat.getDrawable(context, R.drawable.header_transition);
-//                setViewBackGround(header, transDraw);
-//                transDraw.startTransition(ms);
-//                headerRed = true;
-//                setHeaderTextColorWhite();
-//            }
-//        } else {
-//            if (headerRed) {
-//                TransitionDrawable transDraw = (TransitionDrawable) ContextCompat.getDrawable(context, R.drawable.header_transition_white);
-//                setViewBackGround(header, transDraw);
-//                transDraw.startTransition(ms);
-//                headerRed = false;
-//                setHeaderTextColorBlack();
-//            }
-//        }
-//    }
 
     public void headerColorTransition(int ms, int targetBackgroundColor, int targetTextColor) {
         TransitionDrawable transDraw = (TransitionDrawable) ContextCompat.getDrawable(context, targetBackgroundColor);
@@ -152,9 +132,35 @@ public class CabBottomSheet {
         setHeaderTextColor(targetTextColor);
     }
 
+    private void setHeaderRed() {
+        if (!isHeaderRed) {
+            headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition, R.color.back_white);
+            isHeaderRed = true;
+        }
+    }
+
+    private void setHeaderWhite() {
+        if (isHeaderRed) {
+            headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition_white, R.color.color_black);
+            isHeaderRed = false;
+        }
+    }
+
     public void setHeaderTextColor(int targetTextColor) {
         stationFullDistance.setTextColor(ContextCompat.getColor(context, targetTextColor));
         stationFullName.setTextColor(ContextCompat.getColor(context, targetTextColor));
         stationFullFreeBikes.setTextColor(ContextCompat.getColor(context, targetTextColor));
+    }
+
+    public void setHeaderTitle(CharSequence text) {
+        stationFullName.setText(text);
+    }
+
+    public void setFreeBikesTV(CharSequence text) {
+        stationFullFreeBikes.setText(text);
+    }
+    
+    public void setStationDistanceTV(CharSequence text) {
+        stationFullDistance.setText(text);
     }
 }
