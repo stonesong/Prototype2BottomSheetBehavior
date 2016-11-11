@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by pierrechanson on 14/07/16.
@@ -48,6 +49,8 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     private ViewPager recyclerPager;
     private ImageView chat;
     private PagerAdapter pagerAdapter;
+
+    private HashMap<Marker, DummyDataObject> markerDataMap = new HashMap<>();
 
 
     public static Fragment newInstance() {
@@ -115,10 +118,19 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         final LatLng TutorialsPoint = new LatLng(50.934830, 6.946425);
         final LatLng TutorialsPoint2 = new LatLng(50.934135, 6.942425);
         final LatLng TutorialsPoint3 = new LatLng(50.935230, 6.943426);
+        final DummyDataObject data1 = new DummyDataObject("Station 1", "1 bikes available", "1 min");
+        final DummyDataObject data2 = new DummyDataObject("Station 2", "2 bikes available", "2 min");
+        final DummyDataObject data3 = new DummyDataObject("Station 3", "3 bikes available", "3 min");
         markers = new ArrayList<>();
-        markers.add(map.addMarker(new MarkerOptions().position(TutorialsPoint)));
-        markers.add(map.addMarker(new MarkerOptions().position(TutorialsPoint2)));
-        markers.add(map.addMarker(new MarkerOptions().position(TutorialsPoint3)));
+        addMarker(TutorialsPoint, data1);
+        addMarker(TutorialsPoint2, data2);
+        addMarker(TutorialsPoint3, data3);
+    }
+
+    private void addMarker(LatLng pos, DummyDataObject data) {
+        Marker marker = map.addMarker(new MarkerOptions().position(pos));
+        markers.add(marker);
+        markerDataMap.put(marker, data);
     }
 
 
@@ -184,6 +196,11 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     public boolean onMarkerClick(final Marker marker) {
 
         bottomSheet.sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED);
+        DummyDataObject data = markerDataMap.get(marker);
+        bottomSheet.setHeaderTitle(data.title);
+        bottomSheet.setFreeBikesTV(data.availableBikes);
+        bottomSheet.setStationDistanceTV(data.distanceTime);
+
         return true;
     }
 

@@ -159,7 +159,7 @@ public class CabBottomSheet {
     public void setFreeBikesTV(CharSequence text) {
         stationFullFreeBikes.setText(text);
     }
-    
+
     public void setStationDistanceTV(CharSequence text) {
         stationFullDistance.setText(text);
     }
