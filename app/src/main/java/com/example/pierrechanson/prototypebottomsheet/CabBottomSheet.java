@@ -2,18 +2,27 @@ package com.example.pierrechanson.prototypebottomsheet;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by guillaumemeral on 10/11/16.
@@ -28,6 +37,9 @@ public class CabBottomSheet {
     private TextView stationFullName, stationFullFreeBikes, stationFullDistance;
     private LinearLayout rentLayout, damageLayout, routeLayout;
     private ActionBar actionBar;
+    private RecyclerView freeBikesListView;
+    private FreeBikesAdapter freeBikesAdapter;
+    private LinearLayoutManager linearLayoutManager;
     private boolean isHeaderRed = false;
 
     private static final int HEADER_TRANSITION_DURATION = 200;
@@ -43,12 +55,29 @@ public class CabBottomSheet {
         stationFullName = (TextView) bottomSheet.findViewById(R.id.stationFullStationName);
         stationFullFreeBikes = (TextView) bottomSheet.findViewById(R.id.station_full_free_bikes);
 
+
+        freeBikesListView = (RecyclerView) bottomSheet.findViewById(R.id.free_bike_list);
+        linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        freeBikesListView.setLayoutManager(linearLayoutManager);
+        ArrayList<String> bikeList = new ArrayList<>(Arrays.asList("BuenA", "Córdoba", "truc"));
+        freeBikesAdapter = new FreeBikesAdapter(bikeList);
+        freeBikesListView.setAdapter(freeBikesAdapter);
+
+
+
+        setUpBottomSheet();
+        setUpCallbacks();
+        setupButtonLayout();
+    }
+
+    private void setupButtonLayout() {
         rentLayout = (LinearLayout) bottomSheet.findViewById(R.id.rent_layout);
         damageLayout = (LinearLayout) bottomSheet.findViewById(R.id.damage_layout);
         routeLayout = (LinearLayout) bottomSheet.findViewById(R.id.route_layout);
 
-        setUpBottomSheet();
-        setUpCallbacks();
+        setToastClickListener(rentLayout, "Show rent another");
+        setToastClickListener(damageLayout, "Show Report Damage");
+        setToastClickListener(routeLayout, "Start Route");
     }
 
 
@@ -79,11 +108,13 @@ public class CabBottomSheet {
                     Log.d("bottom sheet", "ANCHORPOINT");
                     setHeaderRed();
                     showActionBar();
+                    bottomSheet.requestLayout();
 
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED) {
                     Log.d("bottom sheet", "EXTANDED");
                     setHeaderRed();
                     hideActionBar();
+                    bottomSheet.requestLayout();
 
                 }
 
@@ -123,10 +154,6 @@ public class CabBottomSheet {
                 sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT);
             }
         });
-
-        setToastClickListener(rentLayout, "Show rent another");
-        setToastClickListener(damageLayout, "Show Report Damage");
-        setToastClickListener(routeLayout, "Start Route");
     }
 
     private void setToastClickListener(View view, final String text) {
@@ -181,5 +208,47 @@ public class CabBottomSheet {
 
     public void setStationDistanceTV(CharSequence text) {
         stationFullDistance.setText(text);
+    }
+
+    public void setFreeBikesList(ArrayList<String> bikeList) {
+        freeBikesAdapter.setData(bikeList);
+    }
+
+    protected ArrayAdapter freeBikesAdapter(final ArrayList<String> bikeList) {
+        if (bikeList != null) {
+            return new ArrayAdapter<String>(context, R.layout.simple_free_bikes_list, bikeList) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    return createFreeBikeItemView(convertView, bikeList.get(position));
+                }
+
+                @Override
+                public int getCount() {
+                    return bikeList.size();
+                }
+                @Override
+                public long getItemId(int position) {
+
+                    return position;
+                }
+
+            };
+        } else {
+            return null;
+        }
+    }
+
+    public View createFreeBikeItemView(View convertView, String text) {
+        View itemView;
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            itemView = inflater.inflate(R.layout.simple_free_bikes_list, null);
+        } else {
+            itemView = convertView;
+        }
+
+        TextView tv = (TextView) itemView.findViewById(R.id.simple_free_bikes_list_bike_nr);
+        tv.setText(text);
+        return itemView;
     }
 }

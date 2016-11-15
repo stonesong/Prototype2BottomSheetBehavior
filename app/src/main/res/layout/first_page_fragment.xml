@@ -4,12 +4,10 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:paddingTop="100dp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/free_bike_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAlignment="center"
-        android:text="This is a fragment in a container"
-        />
+        android:scrollbars="vertical"/>
 
 </LinearLayout>

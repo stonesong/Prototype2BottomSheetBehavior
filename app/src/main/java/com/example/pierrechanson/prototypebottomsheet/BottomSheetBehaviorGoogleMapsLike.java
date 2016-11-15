@@ -159,10 +159,12 @@ public class BottomSheetBehaviorGoogleMapsLike<V extends View> extends Coordinat
     public BottomSheetBehaviorGoogleMapsLike(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.obtainStyledAttributes(attrs,
-                android.support.design.R.styleable.BottomSheetBehavior_Params);
-        setPeekHeight(a.getDimensionPixelSize(
-                android.support.design.R.styleable.BottomSheetBehavior_Params_behavior_peekHeight, 0));
-        setHideable(a.getBoolean(android.support.design.R.styleable.BottomSheetBehavior_Params_behavior_hideable, false));
+                android.support.design.R.styleable.BottomSheetBehavior_Layout);
+        setPeekHeight(a.getDimensionPixelSize(R.styleable.BottomSheetBehavior_Layout_behavior_peekHeight, 0));
+        setHideable(a.getBoolean(android.support.design.R.styleable.BottomSheetBehavior_Layout_behavior_hideable, false));
+//        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Custom_BottomSheetBehavior_Layout);
+//        setPeekHeight(a.getDimensionPixelSize(R.styleable.Custom_BottomSheetBehavior_Layout_custom_behavior_peekHeight, 0));
+//        setHideable(a.getBoolean(R.styleable.Custom_BottomSheetBehavior_Layout_custom_behavior_hideable, false));
         a.recycle();
 
         /**

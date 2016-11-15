@@ -10,6 +10,8 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -44,6 +47,10 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     private View bottomSheetLayout;
     private ArrayList<Marker> markers;
     private Marker marker2;
+
+    private RecyclerView freeBikesListView;
+    private FreeBikesAdapter freeBikesAdapter;
+    private LinearLayoutManager linearLayoutManager;
 
     private ViewPager pager;
     private ViewPager recyclerPager;
@@ -65,6 +72,7 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     @Override
     public void onCreate(Bundle onSavedInstanceState) {
         super.onCreate(onSavedInstanceState);
+
 
     }
 
@@ -89,6 +97,8 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         bottomSheetLayout = view.findViewById(R.id.bottom_sheet_layout);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         bottomSheet = new CabBottomSheet(getActivity(), bottomSheetLayout, actionBar);
+
+
 
         setUpCallbacks();
 
@@ -118,9 +128,25 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         final LatLng TutorialsPoint = new LatLng(50.934830, 6.946425);
         final LatLng TutorialsPoint2 = new LatLng(50.934135, 6.942425);
         final LatLng TutorialsPoint3 = new LatLng(50.935230, 6.943426);
-        final DummyDataObject data1 = new DummyDataObject("Station 1", "1 bikes available", "1 min");
-        final DummyDataObject data2 = new DummyDataObject("Station 2", "2 bikes available", "2 min");
-        final DummyDataObject data3 = new DummyDataObject("Station 3", "3 bikes available", "3 min");
+        final ArrayList<String> freeBikes = new ArrayList<>();
+        freeBikes.add("CallaBike No.5033");
+        freeBikes.add("CallaBike No.5034");
+        freeBikes.add("CallaBike No.5035");
+
+        final ArrayList<String> freeFromage = new ArrayList<>();
+        freeFromage.add("Fromage No.5033");
+        freeFromage.add("Fromage No.5034");
+        freeFromage.add("Fromage No.5035");
+
+        final ArrayList<String> freePate = new ArrayList<>();
+        freePate.add("Pate No.5033");
+        freePate.add("Pate No.5034");
+        freePate.add("Pate No.5035");
+
+
+        final DummyDataObject data1 = new DummyDataObject("Station 1", "1 bikes available", "1 min", freeBikes);
+        final DummyDataObject data2 = new DummyDataObject("Station 2", "2 bikes available", "2 min", freeFromage);
+        final DummyDataObject data3 = new DummyDataObject("Station 3", "3 bikes available", "3 min", freePate);
         markers = new ArrayList<>();
         addMarker(TutorialsPoint, data1);
         addMarker(TutorialsPoint2, data2);
@@ -195,11 +221,13 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     @Override
     public boolean onMarkerClick(final Marker marker) {
 
-        bottomSheet.sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED);
+        if (bottomSheet.sheetBehavior.getState() == BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN)
+            bottomSheet.sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED);
         DummyDataObject data = markerDataMap.get(marker);
         bottomSheet.setHeaderTitle(data.title);
         bottomSheet.setFreeBikesTV(data.availableBikes);
         bottomSheet.setStationDistanceTV(data.distanceTime);
+        bottomSheet.setFreeBikesList(data.freeBikes);
 
         return true;
     }
