@@ -47,7 +47,7 @@ public class ExempleFragment extends Fragment {
         data.add("derp");
         data.add("derperp");
         data.add("derpiderp");
-        freeBikesAdapter = new FreeBikesAdapter(data);
+        freeBikesAdapter = new FreeBikesAdapter(getActivity(), data);
         freeBikesListView.setAdapter(freeBikesAdapter);
         freeBikesListView.setOnClickListener(new View.OnClickListener() {
             @Override

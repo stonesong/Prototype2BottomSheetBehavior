@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,8 +60,8 @@ public class CabBottomSheet {
         freeBikesListView = (RecyclerView) bottomSheet.findViewById(R.id.free_bike_list);
         linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         freeBikesListView.setLayoutManager(linearLayoutManager);
-        ArrayList<String> bikeList = new ArrayList<>(Arrays.asList("BuenA", "Córdoba", "truc"));
-        freeBikesAdapter = new FreeBikesAdapter(bikeList);
+        ArrayList<String> bikeList = new ArrayList<>();
+        freeBikesAdapter = new FreeBikesAdapter(context, bikeList);
         freeBikesListView.setAdapter(freeBikesAdapter);
 
 
@@ -78,6 +79,19 @@ public class CabBottomSheet {
         setToastClickListener(rentLayout, "Show rent another");
         setToastClickListener(damageLayout, "Show Report Damage");
         setToastClickListener(routeLayout, "Start Route");
+
+        ImageView stationCircle = (ImageView) rentLayout.findViewById(R.id.station_circle);
+        ImageView stationWarning = (ImageView) damageLayout.findViewById(R.id.station_warning);
+        ImageView stationRoute = (ImageView) routeLayout.findViewById(R.id.station_route);
+
+        setRedColorFilter(stationCircle);
+        setRedColorFilter(stationWarning);
+        setRedColorFilter(stationRoute);
+
+    }
+
+    private void setRedColorFilter(ImageView v) {
+        v.setColorFilter(ContextCompat.getColor(context.getApplicationContext(), R.color.color_red));
     }
 
 
@@ -114,6 +128,7 @@ public class CabBottomSheet {
                     Log.d("bottom sheet", "EXTANDED");
                     setHeaderRed();
                     hideActionBar();
+                    //We need to make this call to make sure UI is updated after changing the bottomsheet recyclerview data
                     bottomSheet.requestLayout();
 
                 }

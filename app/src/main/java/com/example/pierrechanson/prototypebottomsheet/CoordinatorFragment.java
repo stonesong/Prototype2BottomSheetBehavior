@@ -137,6 +137,30 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         freeFromage.add("Fromage No.5033");
         freeFromage.add("Fromage No.5034");
         freeFromage.add("Fromage No.5035");
+        freeFromage.add("Fromage No.5036");
+        freeFromage.add("Fromage No.5037");
+        freeFromage.add("Fromage No.5038");
+        freeFromage.add("Fromage No.5039");
+        freeFromage.add("Fromage No.50310");
+        freeFromage.add("Fromage No.50311");
+        freeFromage.add("Fromage No.50312");
+        freeFromage.add("Fromage No.50313");
+        freeFromage.add("Fromage No.50314");
+        freeFromage.add("Fromage No.50315");
+        freeFromage.add("Fromage No.50316");
+        freeFromage.add("Fromage No.50317");
+        freeFromage.add("Fromage No.50318");
+        freeFromage.add("Fromage No.50319");
+        freeFromage.add("Fromage No.50320");
+        freeFromage.add("Fromage No.50321");
+        freeFromage.add("Fromage No.50322");
+        freeFromage.add("Fromage No.50323");
+        freeFromage.add("Fromage No.50324");
+        freeFromage.add("Fromage No.50325");
+        freeFromage.add("Fromage No.50326");
+        freeFromage.add("Fromage No.50327");
+        freeFromage.add("Fromage No.50328");
+        freeFromage.add("Fromage No.50329");
 
         final ArrayList<String> freePate = new ArrayList<>();
         freePate.add("Pate No.5033");
@@ -144,9 +168,9 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         freePate.add("Pate No.5035");
 
 
-        final DummyDataObject data1 = new DummyDataObject("Station 1", "1 bikes available", "1 min", freeBikes);
-        final DummyDataObject data2 = new DummyDataObject("Station 2", "2 bikes available", "2 min", freeFromage);
-        final DummyDataObject data3 = new DummyDataObject("Station 3", "3 bikes available", "3 min", freePate);
+        final DummyDataObject data1 = new DummyDataObject("Station Bikes", "3 bikes available", "1 min", freeBikes);
+        final DummyDataObject data2 = new DummyDataObject("Station Fromage", "27 fromages available", "2 min", freeFromage);
+        final DummyDataObject data3 = new DummyDataObject("Station Pate", "3 pates available", "3 min", freePate);
         markers = new ArrayList<>();
         addMarker(TutorialsPoint, data1);
         addMarker(TutorialsPoint2, data2);

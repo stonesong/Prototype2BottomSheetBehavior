@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 public class FreeBikesAdapter extends RecyclerView.Adapter<FreeBikesAdapter.BikeHolder>  {
 
     public ArrayList<String> bikeList;
+    final private Context context;
 
-    public FreeBikesAdapter(ArrayList<String> bikeList) {
+    public FreeBikesAdapter(Context context, ArrayList<String> bikeList) {
+        this.context = context;
         this.bikeList = bikeList;
     }
 
@@ -31,8 +34,14 @@ public class FreeBikesAdapter extends RecyclerView.Adapter<FreeBikesAdapter.Bike
 
     @Override
     public void onBindViewHolder(FreeBikesAdapter.BikeHolder holder, int position) {
-        String text = bikeList.get(position);
+        final String text = bikeList.get(position);
         holder.bindBikeText(text);
+        holder.setClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Book " + text, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -41,7 +50,9 @@ public class FreeBikesAdapter extends RecyclerView.Adapter<FreeBikesAdapter.Bike
     }
 
     public static class BikeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
         private TextView textView;
+        private View.OnClickListener listener;
 
         private static final String BIKE_KEY = "BIKE";
 
@@ -55,9 +66,13 @@ public class FreeBikesAdapter extends RecyclerView.Adapter<FreeBikesAdapter.Bike
             textView.setText(text);
         }
 
+        public void setClickListener(View.OnClickListener listener) {
+            this.listener = listener;
+        }
+
         @Override
         public void onClick(View v) {
-            Log.d("RecyclerView", "CLICK!");
+            listener.onClick(v);
         }
     }
 
