@@ -40,25 +40,6 @@ public class ExempleFragment extends Fragment {
         View view = (View) inflater.inflate(R.layout.first_page_fragment,
                 container, false);
 
-        freeBikesListView = (RecyclerView) view.findViewById(R.id.free_bike_list);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        freeBikesListView.setLayoutManager(linearLayoutManager);
-        ArrayList<String> data = new ArrayList<>();
-        data.add("derp");
-        data.add("derperp");
-        data.add("derpiderp");
-        freeBikesAdapter = new FreeBikesAdapter(getActivity(), data);
-        freeBikesListView.setAdapter(freeBikesAdapter);
-        freeBikesListView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ArrayList<String> data = new ArrayList<>();
-                data.add("flcon");
-                data.add("de");
-                data.add("neige");
-//                freeBikesAdapter.bikeList = data;
-            }
-        });
 
         return view ;
     }

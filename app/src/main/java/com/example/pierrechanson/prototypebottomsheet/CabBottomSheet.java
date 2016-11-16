@@ -69,7 +69,6 @@ public class CabBottomSheet {
         freeBikesListView.setAdapter(freeBikesAdapter);
 
 
-
         setUpBottomSheet();
         setUpCallbacks();
         setupButtonLayout();
