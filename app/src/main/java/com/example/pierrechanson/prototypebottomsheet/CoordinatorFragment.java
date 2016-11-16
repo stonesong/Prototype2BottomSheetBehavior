@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -96,7 +97,8 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
 
         bottomSheetLayout = view.findViewById(R.id.bottom_sheet_layout);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        bottomSheet = new CabBottomSheet(getActivity(), bottomSheetLayout, actionBar);
+        FloatingActionButton rentBikeFab = (FloatingActionButton) view.findViewById(R.id.rent_bike_fab);
+        bottomSheet = new CabBottomSheet(getActivity(), bottomSheetLayout, actionBar, rentBikeFab);
 
 
 

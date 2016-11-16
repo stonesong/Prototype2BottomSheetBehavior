@@ -47,5 +47,22 @@
 
     </LinearLayout>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/rent_bike_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:clickable="true"
+        android:padding="20.0dip"
+        android:src="@drawable/ic_add_white_48dp"
+        android:tint="@color/back_white"
+        app:backgroundTint="@color/color_red"
+        app:borderWidth="0dp"
+        app:layout_anchor="@id/bottom_sheet_layout"
+        app:layout_anchorGravity="end|top|right" />
+
+
+
 
 </android.support.design.widget.CoordinatorLayout>

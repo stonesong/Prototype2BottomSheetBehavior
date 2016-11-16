@@ -4,9 +4,11 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,15 +43,17 @@ public class CabBottomSheet {
     private RecyclerView freeBikesListView;
     private FreeBikesAdapter freeBikesAdapter;
     private LinearLayoutManager linearLayoutManager;
+    private FloatingActionButton rentBikeFab;
     private boolean isHeaderRed = false;
 
     private static final int HEADER_TRANSITION_DURATION = 200;
 
 
-    public CabBottomSheet(Activity activity, View bottomSheet, ActionBar actionBar) {
+    public CabBottomSheet(Activity activity, View bottomSheet, ActionBar actionBar, FloatingActionButton rentBikeFab) {
         this.context = activity;
         this.bottomSheet = bottomSheet;
         this.actionBar = actionBar;
+        this.rentBikeFab = rentBikeFab;
         header = (LinearLayout) bottomSheet.findViewById(R.id.header);
 
         stationFullDistance = (TextView) bottomSheet.findViewById(R.id.station_full_distance);
@@ -169,6 +173,13 @@ public class CabBottomSheet {
                 sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT);
             }
         });
+
+        rentBikeFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Rent " + freeBikesAdapter.getFirstBike() + " ?", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setToastClickListener(View view, final String text) {
@@ -196,6 +207,8 @@ public class CabBottomSheet {
     private void setHeaderRed() {
         if (!isHeaderRed) {
             headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition, R.color.back_white);
+            rentBikeFab.getDrawable().setColorFilter(ContextCompat.getColor(context, R.color.color_red), PorterDuff.Mode.MULTIPLY);
+            rentBikeFab.setBackgroundTintList(context.getResources().getColorStateList(R.color.back_white));
             isHeaderRed = true;
         }
     }
@@ -203,6 +216,8 @@ public class CabBottomSheet {
     private void setHeaderWhite() {
         if (isHeaderRed) {
             headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition_white, R.color.color_black);
+            rentBikeFab.getDrawable().setColorFilter(ContextCompat.getColor(context, R.color.back_white), PorterDuff.Mode.MULTIPLY);
+            rentBikeFab.setBackgroundTintList(context.getResources().getColorStateList(R.color.color_red));
             isHeaderRed = false;
         }
     }

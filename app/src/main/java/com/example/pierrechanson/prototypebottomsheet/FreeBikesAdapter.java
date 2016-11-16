@@ -81,4 +81,8 @@ public class FreeBikesAdapter extends RecyclerView.Adapter<FreeBikesAdapter.Bike
         bikeList.addAll(data);
         notifyDataSetChanged();
     }
+
+    public String getFirstBike() {
+        return bikeList.isEmpty() ? "" : bikeList.get(0);
+    }
 }
