@@ -1,10 +1,7 @@
 package com.example.pierrechanson.prototypebottomsheet;
 
 
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -13,13 +10,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,7 +25,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**
@@ -41,24 +34,16 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
 
     MapView mapView;
     private GoogleMap map;
-    MapView mapView2;
-    GoogleMap map2;
+    MapView backdropMapView;
+    GoogleMap backdropMap;
 
     private CabBottomSheet bottomSheet;
     private View bottomSheetLayout;
     private ArrayList<Marker> markers;
-    private Marker marker2;
-
-    private RecyclerView freeBikesListView;
-    private FreeBikesAdapter freeBikesAdapter;
-    private LinearLayoutManager linearLayoutManager;
-
-    private ViewPager pager;
-    private ViewPager recyclerPager;
-    private ImageView chat;
-    private PagerAdapter pagerAdapter;
 
     private HashMap<Marker, DummyDataObject> markerDataMap = new HashMap<>();
+
+    private static final float BACKDROP_MAP_ZOOM = 17;
 
 
     public static Fragment newInstance() {
@@ -87,20 +72,18 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
 
         mapView = (MapView) view.findViewById(R.id.mapview);
         mapView.onCreate(null);
-        mapView2 = (MapView) view.findViewById(R.id.mapview2);
-        mapView2.onCreate(savedInstanceState);
+        backdropMapView = (MapView) view.findViewById(R.id.backdrop_map);
+        backdropMapView.onCreate(savedInstanceState);
 
 //        chat = (ImageView) view.findViewById(R.id.image_chat);
 
         setUpMap();
-        setUpMap2();
+        initBackdropMap();
 
         bottomSheetLayout = view.findViewById(R.id.bottom_sheet_layout);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         FloatingActionButton rentBikeFab = (FloatingActionButton) view.findViewById(R.id.rent_bike_fab);
         bottomSheet = new CabBottomSheet(getActivity(), bottomSheetLayout, actionBar, rentBikeFab);
-
-
 
         setUpCallbacks();
 
@@ -186,11 +169,10 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     }
 
 
-    private void setUpMap2(){
-
+    private void initBackdropMap() {
         // Gets to GoogleMap from the MapView and does initialization stuff
-        map2 = mapView2.getMap();
-        map2.getUiSettings().setMyLocationButtonEnabled(false);
+        backdropMap = backdropMapView.getMap();
+        backdropMap.getUiSettings().setMyLocationButtonEnabled(false);
 //        map.setMyLocationEnabled(true);
 
         // Needs to call MapsInitializer before doing any CameraUpdateFactory calls
@@ -199,14 +181,17 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         } catch (Exception e) {
             e.printStackTrace();
         }
-        map2.setOnMarkerClickListener(this);
+        backdropMap.getUiSettings().setAllGesturesEnabled(false);
+    }
 
+    private void setupBackdropMap(Marker marker){
         // Updates the location and zoom of the MapView
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(50.934830, 6.946425), 15);
-        map2.animateCamera(cameraUpdate);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(marker.getPosition(), BACKDROP_MAP_ZOOM);
+        backdropMap.animateCamera(cameraUpdate);
 
-        final LatLng TutorialsPoint = new LatLng(50.934830, 6.946425);
-        marker2 = map2.addMarker(new MarkerOptions().position(TutorialsPoint));
+        backdropMap.clear();
+        backdropMap.addMarker(new MarkerOptions().position(marker.getPosition()));
+        backdropMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
 
@@ -217,7 +202,7 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     @Override
     public void onResume() {
         mapView.onResume();
-        mapView2.onResume();
+        backdropMapView.onResume();
         super.onResume();
     }
 
@@ -225,14 +210,14 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
     public void onDestroy() {
         super.onDestroy();
         mapView.onDestroy();
-        mapView2.onDestroy();
+        backdropMapView.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
-        mapView2.onLowMemory();
+        backdropMapView.onLowMemory();
     }
 
     private void setUpCallbacks() {
@@ -254,24 +239,9 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         bottomSheet.setFreeBikesTV(data.availableBikes);
         bottomSheet.setStationDistanceTV(data.distanceTime);
         bottomSheet.setFreeBikesList(data.freeBikes);
+        setupBackdropMap(marker);
 
         return true;
-    }
-
-    private void pagerToRecycler(){
-        pager.animate().alpha(0.0f);
-        pager.setVisibility(View.GONE);
-        recyclerPager.setVisibility(View.VISIBLE);
-        recyclerPager.animate().alpha(0.0f);
-        recyclerPager.animate().setDuration(500).alpha(1.0f);
-    }
-
-    private void recyclerToPager(){
-        recyclerPager.animate().setDuration(500).alpha(0.0f);
-        recyclerPager.setVisibility(View.GONE);
-        pager.setVisibility(View.VISIBLE);
-        pager.animate().alpha(0.0f);
-        pager.animate().setDuration(500).alpha(1.0f);
     }
 
 }
