@@ -6,6 +6,7 @@ package com.example.pierrechanson.prototypebottomsheet;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -33,7 +34,7 @@ public class BackdropBottomSheetBehavior<V extends View> extends CoordinatorLayo
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, View child, View dependency) {
-        return dependency instanceof LinearLayout;
+        return dependency instanceof LinearLayout && !(dependency instanceof AppBarLayout);
     }
 
     @Override
@@ -42,8 +43,8 @@ public class BackdropBottomSheetBehavior<V extends View> extends CoordinatorLayo
             init(child, dependency);
             return false;
         }
-        if((mCurrentChildY = (int) ((dependency.getY()-mAnchorPointY) * mCollapsedY / (mCollapsedY-mAnchorPointY))) <= actionBarHeight)
-            child.setY(mCurrentChildY = actionBarHeight);
+        if((mCurrentChildY = (int) ((dependency.getY()-mAnchorPointY) * mCollapsedY / (mCollapsedY-mAnchorPointY))) <= 0)
+            child.setY(mCurrentChildY = 0);
         else
             child.setY(mCurrentChildY);
         return true;

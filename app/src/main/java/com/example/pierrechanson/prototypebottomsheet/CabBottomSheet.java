@@ -113,24 +113,24 @@ public class CabBottomSheet {
                 // React to state change
                 if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN) {
                     Log.d("bottom sheet", "HIDE");
-                    showActionBar();
+//                    showActionBar();
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED) {
                     Log.d("bottom sheet", "COLLAPSED");
                     setHeaderWhite();
-                    showActionBar();
+//                    showActionBar();
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_SETTLING) {
                     Log.d("bottom sheet", "SETTLING");
 
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT) {
                     Log.d("bottom sheet", "ANCHORPOINT");
                     setHeaderRed();
-                    showActionBar();
+//                    showActionBar();
                     bottomSheet.requestLayout();
 
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED) {
                     Log.d("bottom sheet", "EXTANDED");
                     setHeaderRed();
-                    hideActionBar();
+//                    hideActionBar();
                     //We need to make this call to make sure UI is updated after changing the bottomsheet recyclerview data
                     bottomSheet.requestLayout();
 

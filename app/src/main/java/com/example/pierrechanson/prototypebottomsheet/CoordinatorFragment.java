@@ -2,14 +2,18 @@ package com.example.pierrechanson.prototypebottomsheet;
 
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +73,8 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
        View view = (View) inflater.inflate(R.layout.fragment_coordinator,
                 container, false);
 
+        replaceToolbar(view);
+
 
         mapView = (MapView) view.findViewById(R.id.mapview);
         mapView.onCreate(null);
@@ -88,6 +94,21 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         setUpCallbacks();
 
         return view ;
+    }
+
+    private void replaceToolbar(View rootView) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.scrolling_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        AppBarLayout appBarLayout = (AppBarLayout) rootView.findViewById(R.id.scrolling_appbarlayout);
+        DrawerLayout drawer = ((MainActivity) getActivity()).getDrawer();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().show();
     }
 
 

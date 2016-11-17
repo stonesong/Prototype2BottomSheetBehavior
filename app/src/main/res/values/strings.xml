@@ -13,4 +13,8 @@
     <string name="station_view_start_route">Start\nRoute</string>
     <string name="station_view_problem">Report\nDamage</string>
 
+
+    <string name="ScrollingAppBarLayoutBehavior">com.example.pierrechanson.prototypebottomsheet.ScrollingAppBarLayoutBehavior</string>
+    <string name="ScrollAwareFABBehavior">com.example.pierrechanson.prototypebottomsheet.ScrollAwareFABBehavior</string>
+
 </resources>

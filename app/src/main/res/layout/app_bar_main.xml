@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/coordinator_root"
     tools:context="com.example.pierrechanson.prototypebottomsheet.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbarlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:behavior_scrolling_appbar_peek_height="80dp"
+        app:layout_behavior="@string/ScrollingAppBarLayoutBehavior">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
