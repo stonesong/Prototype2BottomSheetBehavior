@@ -89,7 +89,7 @@ public class CoordinatorFragment extends Fragment implements GoogleMap.OnMarkerC
         bottomSheetLayout = view.findViewById(R.id.bottom_sheet_layout);
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         FloatingActionButton rentBikeFab = (FloatingActionButton) view.findViewById(R.id.rent_bike_fab);
-        bottomSheet = new CabBottomSheet(getActivity(), bottomSheetLayout, actionBar, rentBikeFab);
+        bottomSheet = new CabBottomSheet(getActivity(), bottomSheetLayout, rentBikeFab);
 
         setUpCallbacks();
 

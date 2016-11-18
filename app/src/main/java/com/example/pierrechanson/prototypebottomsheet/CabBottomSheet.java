@@ -2,7 +2,6 @@ package com.example.pierrechanson.prototypebottomsheet;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -10,22 +9,17 @@ import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Created by guillaumemeral on 10/11/16.
@@ -39,7 +33,6 @@ public class CabBottomSheet {
     private LinearLayout header;
     private TextView stationFullName, stationFullFreeBikes, stationFullDistance;
     private LinearLayout rentLayout, damageLayout, routeLayout;
-    private ActionBar actionBar;
     private RecyclerView freeBikesListView;
     private FreeBikesAdapter freeBikesAdapter;
     private LinearLayoutManager linearLayoutManager;
@@ -49,10 +42,9 @@ public class CabBottomSheet {
     private static final int HEADER_TRANSITION_DURATION = 200;
 
 
-    public CabBottomSheet(Activity activity, View bottomSheet, ActionBar actionBar, FloatingActionButton rentBikeFab) {
+    public CabBottomSheet(Activity activity, View bottomSheet, FloatingActionButton rentBikeFab) {
         this.context = activity;
         this.bottomSheet = bottomSheet;
-        this.actionBar = actionBar;
         this.rentBikeFab = rentBikeFab;
         header = (LinearLayout) bottomSheet.findViewById(R.id.header);
 
@@ -113,37 +105,23 @@ public class CabBottomSheet {
                 // React to state change
                 if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN) {
                     Log.d("bottom sheet", "HIDE");
-//                    showActionBar();
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED) {
                     Log.d("bottom sheet", "COLLAPSED");
                     setHeaderWhite();
-//                    showActionBar();
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_SETTLING) {
                     Log.d("bottom sheet", "SETTLING");
 
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT) {
                     Log.d("bottom sheet", "ANCHORPOINT");
                     setHeaderRed();
-//                    showActionBar();
                     bottomSheet.requestLayout();
 
                 } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_EXPANDED) {
                     Log.d("bottom sheet", "EXTANDED");
                     setHeaderRed();
-//                    hideActionBar();
                     //We need to make this call to make sure UI is updated after changing the bottomsheet recyclerview data
                     bottomSheet.requestLayout();
-
                 }
-
-                if (sheetBehavior.getState() == BottomSheetBehaviorGoogleMapsLike.STATE_DRAGGING) {
-                    if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_ANCHOR_POINT) {
-                        headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition, R.color.back_white);
-                    } else if (newState == BottomSheetBehaviorGoogleMapsLike.STATE_COLLAPSED) {
-                        headerColorTransition(HEADER_TRANSITION_DURATION, R.drawable.header_transition_white, R.color.color_black);
-                    }
-                }
-
             }
 
             @Override
@@ -154,14 +132,6 @@ public class CabBottomSheet {
 
         sheetBehavior.setState(BottomSheetBehaviorGoogleMapsLike.STATE_HIDDEN);
 
-    }
-
-    private void hideActionBar() {
-        actionBar.hide();
-    }
-
-    private void showActionBar() {
-        actionBar.show();
     }
 
 
@@ -243,41 +213,4 @@ public class CabBottomSheet {
         freeBikesAdapter.setData(bikeList);
     }
 
-    protected ArrayAdapter freeBikesAdapter(final ArrayList<String> bikeList) {
-        if (bikeList != null) {
-            return new ArrayAdapter<String>(context, R.layout.simple_free_bikes_list, bikeList) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    return createFreeBikeItemView(convertView, bikeList.get(position));
-                }
-
-                @Override
-                public int getCount() {
-                    return bikeList.size();
-                }
-                @Override
-                public long getItemId(int position) {
-
-                    return position;
-                }
-
-            };
-        } else {
-            return null;
-        }
-    }
-
-    public View createFreeBikeItemView(View convertView, String text) {
-        View itemView;
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            itemView = inflater.inflate(R.layout.simple_free_bikes_list, null);
-        } else {
-            itemView = convertView;
-        }
-
-        TextView tv = (TextView) itemView.findViewById(R.id.simple_free_bikes_list_bike_nr);
-        tv.setText(text);
-        return itemView;
-    }
 }

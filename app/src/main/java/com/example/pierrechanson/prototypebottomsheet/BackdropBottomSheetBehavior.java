@@ -20,6 +20,7 @@ public class BackdropBottomSheetBehavior<V extends View> extends CoordinatorLayo
     private int mPeakHeight;
     private int mAnchorPointY;
     private int mCurrentChildY;
+    //TODO Remove if not usefull in integrated version
     private int statusBarHeight;
     private int actionBarHeight;
 
@@ -28,6 +29,8 @@ public class BackdropBottomSheetBehavior<V extends View> extends CoordinatorLayo
         TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.BackdropBottomSheetBehavior_Params);
         setPeekHeight(a.getDimensionPixelSize(R.styleable.BackdropBottomSheetBehavior_Params_behavior_backdrop_peekHeight, 0));
         a.recycle();
+
+        //TODO Remove if not usefull in integrated version
         statusBarHeight = getStatusBarHeight(context);
         actionBarHeight = getActionBarHeight(context);
     }
@@ -54,7 +57,7 @@ public class BackdropBottomSheetBehavior<V extends View> extends CoordinatorLayo
         mCollapsedY = dependency.getHeight() - (2 * mPeakHeight);
         mAnchorPointY = child.getHeight();
         mCurrentChildY = (int) dependency.getY();
-        //TODO
+
         if(mCurrentChildY == mAnchorPointY || mCurrentChildY == mAnchorPointY-1 ||mCurrentChildY == mAnchorPointY+1)
             child.setY(0);
         else child.setY(mCurrentChildY);
@@ -65,6 +68,7 @@ public class BackdropBottomSheetBehavior<V extends View> extends CoordinatorLayo
         this.mPeakHeight = peakHeight;
     }
 
+    //TODO Remove if not usefull in integrated version
     private int getActionBarHeight(Context context) {
         TypedValue tv = new TypedValue();
         int actionBarHeight = 0;
@@ -75,6 +79,7 @@ public class BackdropBottomSheetBehavior<V extends View> extends CoordinatorLayo
         return actionBarHeight;
     }
 
+    //TODO Remove if not usefull in integrated version
     private int getStatusBarHeight(Context context) {
         int result = 0;
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");

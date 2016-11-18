@@ -25,6 +25,11 @@ import android.widget.LinearLayout;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ *  Allow the floating action button to appear/disappear when the Dependent Layout reaches a specific scrolling point.
+ *  CLass from : https://github.com/miguelhincapie/CustomBottomSheetBehavior/blob/master/app/src/main/java/co/com/parsoniisolutions/custombottomsheetbehavior/lib/ScrollAwareFABBehavior.java
+ */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
 
     float offset;
@@ -33,14 +38,6 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
         super();
         offset = 0;
     }
-
-//    @Override
-//    public boolean onStartNestedScroll(final CoordinatorLayout coordinatorLayout, final FloatingActionButton child,
-//                                       final View directTargetChild, final View target, final int nestedScrollAxes) {
-//        // Ensure we react to vertical scrolling
-//        return nestedScrollAxes == ViewCompat.SCROLL_AXIS_VERTICAL
-//                || super.onStartNestedScroll(coordinatorLayout, child, directTargetChild, target, nestedScrollAxes);
-//    }
 
     @Override
     public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {

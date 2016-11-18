@@ -12,7 +12,6 @@ import android.os.Parcelable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.Window;
@@ -21,7 +20,8 @@ import android.widget.LinearLayout;
 
 
 /**
- *
+ * Allow the appbar to appear/disappear ina sliding animation when dependent view reaches a certain
+ * height.
  */
 public class ScrollingAppBarLayoutBehavior extends AppBarLayout.ScrollingViewBehavior {
 
